@@ -1,0 +1,134 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Mar 30 17:10:10 2018
+单分子深度神经网络机器学习
+@author: 
+"""
+import pandas as pd
+import numpy as np
+
+# machine learning
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC, LinearSVC
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.linear_model import Perceptron
+from sklearn.linear_model import SGDClassifier
+from sklearn.tree import DecisionTreeClassifier
+
+
+train=pd.read_csv("train.csv");
+test=pd.read_csv("test.csv");
+
+#获取各列数据，并将数据类型转化为float类型
+#ML
+conductance_train_ML = np.array(train.ix[0:15000,0:80],dtype=np.float)
+class_train_ML = np.array(train.ix[0:15000,-1],dtype=np.float)
+conductance_test_ML = np.array(test.ix[:,0:80],dtype=np.float)
+class_test_ML = np.array(test.ix[:,-1],dtype=np.float)
+
+#各种机器学习算法
+# 1.Logistic Regression
+logreg = LogisticRegression()
+logreg.fit(conductance_train_ML, class_train_ML)
+Y_pred = logreg.predict(conductance_test_ML)
+score_logistic_train = logreg.score(conductance_train_ML, class_train_ML)
+score_logistic_test = logreg.score(conductance_test_ML, class_test_ML)
+acc_log_train = round(logreg.score(conductance_train_ML, class_train_ML) * 100, 2)#保留两位小数
+acc_log_test = round(logreg.score(conductance_test_ML, class_test_ML) * 100, 2)#保留两位小数
+
+# 2.Support Vector Machines
+svc = SVC()
+svc.fit(conductance_train_ML, class_train_ML)
+Y_pred = svc.predict(conductance_test_ML)
+score_svc_train = svc.score(conductance_train_ML, class_train_ML)
+score_svc_test = svc.score(conductance_test_ML, class_test_ML)
+acc_svc_train = round(svc.score(conductance_train_ML, class_train_ML) * 100, 2)
+acc_svc_test = round(svc.score(conductance_test_ML, class_test_ML) * 100, 2)
+
+# 3.KNN
+knn = KNeighborsClassifier(n_neighbors = 3)
+knn.fit(conductance_train_ML, class_train_ML)
+Y_pred = knn.predict(conductance_test_ML)
+score_knn_train = knn.score(conductance_train_ML, class_train_ML)
+score_knn_test = knn.score(conductance_test_ML, class_test_ML)
+acc_knn_train = round(knn.score(conductance_train_ML, class_train_ML) * 100, 2)
+acc_knn_test = round(knn.score(conductance_test_ML, class_test_ML) * 100, 2)
+
+# 4.Gaussian Naive Bayes
+gaussian = GaussianNB()
+gaussian.fit(conductance_train_ML, class_train_ML)
+Y_pred = gaussian.predict(conductance_test_ML)
+score_gaussian_train = gaussian.score(conductance_train_ML, class_train_ML)
+score_gaussian_test = gaussian.score(conductance_test_ML, class_test_ML)
+acc_gaussian_train = round(gaussian.score(conductance_train_ML, class_train_ML) * 100, 2)
+acc_gaussian_test = round(gaussian.score(conductance_test_ML, class_test_ML) * 100, 2)
+
+# 5.Perceptron
+perceptron = Perceptron()
+perceptron.fit(conductance_train_ML, class_train_ML)
+Y_pred = perceptron.predict(conductance_test_ML)
+score_perceptron_train = perceptron.score(conductance_train_ML, class_train_ML)
+score_perceptron_test = perceptron.score(conductance_test_ML, class_test_ML)
+acc_perceptron_train = round(perceptron.score(conductance_train_ML, class_train_ML) * 100, 2)
+acc_perceptron_test = round(perceptron.score(conductance_test_ML, class_test_ML) * 100, 2)
+
+# 6.Linear SVC
+linear_svc = LinearSVC()
+linear_svc.fit(conductance_train_ML, class_train_ML)
+Y_pred = linear_svc.predict(conductance_test_ML)
+score_linear_svc_train = linear_svc.score(conductance_train_ML, class_train_ML)
+score_linear_svc_test = linear_svc.score(conductance_test_ML, class_test_ML)
+acc_linear_svc_train = round(linear_svc.score(conductance_train_ML, class_train_ML) * 100, 2)
+acc_linear_svc_test = round(linear_svc.score(conductance_test_ML, class_test_ML) * 100, 2)
+
+# 7.Stochastic Gradient Descent
+sgd = SGDClassifier()
+sgd.fit(conductance_train_ML, class_train_ML)
+Y_pred = sgd.predict(conductance_test_ML)
+score_sgd_train = sgd.score(conductance_train_ML, class_train_ML)
+score_sgd_test = sgd.score(conductance_test_ML, class_test_ML)
+acc_sgd_train = round(sgd.score(conductance_train_ML, class_train_ML) * 100, 2)
+acc_sgd_test = round(sgd.score(conductance_test_ML, class_test_ML) * 100, 2)
+
+# 8.Decision Tree
+decision_tree = DecisionTreeClassifier()
+decision_tree.fit(conductance_train_ML, class_train_ML)
+Y_pred = decision_tree.predict(conductance_test_ML)
+score_decision_tree_train = decision_tree.score(conductance_train_ML, class_train_ML)
+score_decision_tree_test = decision_tree.score(conductance_test_ML, class_test_ML)
+acc_decision_tree_train = round(decision_tree.score(conductance_train_ML, class_train_ML) * 100, 2)
+acc_decision_tree_test = round(decision_tree.score(conductance_test_ML, class_test_ML) * 100, 2)
+
+
+# 9.Random Forest
+random_forest = RandomForestClassifier(n_estimators=100)
+random_forest.fit(conductance_train_ML, class_train_ML)
+Y_pred = random_forest.predict(conductance_test_ML)
+score_random_forest_train = random_forest.score(conductance_train_ML, class_train_ML)
+score_random_forest_test = random_forest.score(conductance_test_ML, class_test_ML)
+acc_random_forest_train = round(random_forest.score(conductance_train_ML, class_train_ML) * 100, 2)
+acc_random_forest_test = round(random_forest.score(conductance_test_ML, class_test_ML) * 100, 2)
+
+#模型评价
+#训练集
+models = pd.DataFrame({
+    'Model_train': ['Support Vector Machines', 'KNN', 'Logistic Regression', 
+              'Random Forest', 'Naive Bayes', 'Perceptron', 
+              'Stochastic Gradient Decent', 'Linear SVC', 
+              'Decision Tree'],
+    'Score_train': [acc_svc_train, acc_knn_train, acc_log_train, 
+              acc_random_forest_train, acc_gaussian_train, acc_perceptron_train, 
+              acc_sgd_train, acc_linear_svc_train, acc_decision_tree_train]})
+print(models.sort_values(by='Score_train', ascending=False))
+#测试集
+models = pd.DataFrame({
+    'Model_test': ['Support Vector Machines', 'KNN', 'Logistic Regression', 
+              'Random Forest', 'Naive Bayes', 'Perceptron', 
+              'Stochastic Gradient Decent', 'Linear SVC', 
+              'Decision Tree'],
+    'Score_test': [acc_svc_test, acc_knn_test, acc_log_test, 
+              acc_random_forest_test, acc_gaussian_test, acc_perceptron_test, 
+              acc_sgd_test, acc_linear_svc_test, acc_decision_tree_test]})
+print(models.sort_values(by='Score_test', ascending=False))
